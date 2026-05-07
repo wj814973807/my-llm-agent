@@ -17,7 +17,7 @@ export interface Session {
 export interface Message {
   id: string;
   sessionId: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   createdAt: Date;
 }
@@ -40,7 +40,7 @@ export interface ApiResponse<T = unknown> {
 }
 
 export interface StreamResponse {
-  type: 'token' | 'done' | 'error';
+  type: "token" | "done" | "error";
   content?: string;
   messageId?: string;
   message?: string;

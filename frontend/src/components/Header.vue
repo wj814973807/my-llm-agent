@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from "../stores/auth";
 
 const authStore = useAuthStore();
 
@@ -23,10 +23,10 @@ const handleLogout = () => {
         stroke-linejoin="round"
         class="header__logo-icon"
       >
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-        <path d="M9 9h.01"/>
-        <path d="M15 9h.01"/>
+        <circle cx="12" cy="12" r="10" />
+        <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+        <path d="M9 9h.01" />
+        <path d="M15 9h.01" />
       </svg>
       <span class="header__logo-text">AI客服</span>
     </div>
@@ -45,9 +45,9 @@ const handleLogout = () => {
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-          <polyline points="16 17 21 12 16 7"/>
-          <line x1="21" x2="9" y1="12" y2="12"/>
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" x2="9" y1="12" y2="12" />
         </svg>
       </button>
     </div>

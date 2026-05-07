@@ -1,3 +1,21 @@
+/**
+ * AI服务模块 - 封装LangChain与Qwen大模型的交互逻辑
+ *
+ * 功能说明：
+ * - 使用阿里云Qwen-Plus模型提供AI对话能力
+ * - 支持普通响应和流式响应两种模式
+ * - 维护对话历史上下文，实现聊天记忆功能
+ *
+ * 技术实现：
+ * - 基于LangChain Expression Language (LCEL)构建
+ * - 使用ChatPromptTemplate构建对话模板
+ * - 支持流式输出，实现打字机效果
+ *
+ * 环境变量：
+ * - QIAN_API_KEY: 阿里云DashScope API密钥
+ * - QIAN_API_BASE: API基础地址（默认：https://dashscope.aliyuncs.com/compatible-mode/v1）
+ */
+
 import { ChatOpenAI } from "@langchain/openai";
 import {
   ChatPromptTemplate,
@@ -13,6 +31,14 @@ const QIAN_API_BASE =
   "https://dashscope.aliyuncs.com/compatible-mode/v1";
 
 export const aiService = {
+  /**
+   * 生成AI响应（非流式）
+   *
+   * @param sessionId - 会话ID
+   * @param history - 对话历史消息数组
+   * @param userMessage - 用户输入消息
+   * @returns AI响应内容
+   */
   async generateResponse(
     sessionId: string,
     history: Message[],
@@ -59,6 +85,14 @@ export const aiService = {
     }
   },
 
+  /**
+   * 生成流式AI响应（打字机效果）
+   *
+   * @param sessionId - 会话ID
+   * @param history - 对话历史消息数组
+   * @param userMessage - 用户输入消息
+   * @returns 异步生成器，逐块返回AI响应内容
+   */
   async *generateStreamResponse(
     sessionId: string,
     history: Message[],

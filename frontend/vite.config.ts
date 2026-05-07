@@ -17,7 +17,9 @@ export default defineConfig({
         changeOrigin: true,
         configure: (proxy) => {
           proxy.on("proxyRes", (proxyRes) => {
-            if (proxyRes.headers["content-type"]?.includes("text/event-stream")) {
+            if (
+              proxyRes.headers["content-type"]?.includes("text/event-stream")
+            ) {
               proxyRes.headers["cache-control"] = "no-cache, no-transform";
               proxyRes.headers["x-accel-buffering"] = "no";
             }

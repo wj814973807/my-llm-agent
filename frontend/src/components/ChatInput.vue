@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch } from "vue";
 
 const props = defineProps<{
   modelValue: string;
@@ -8,28 +8,31 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   submit: [];
-  'update:modelValue': [value: string];
+  "update:modelValue": [value: string];
 }>();
 
 const text = ref(props.modelValue);
 
-watch(() => props.modelValue, (newVal) => {
-  text.value = newVal;
-});
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    text.value = newVal;
+  },
+);
 
 const updateModel = (value: string) => {
   text.value = value;
-  emit('update:modelValue', value);
+  emit("update:modelValue", value);
 };
 
 const handleSubmit = () => {
   if (!text.value.trim() || props.disabled) return;
-  emit('submit');
-  updateModel('');
+  emit("submit");
+  updateModel("");
 };
 
 const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Enter' && !event.shiftKey) {
+  if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();
     handleSubmit();
   }
@@ -64,8 +67,8 @@ const handleKeydown = (event: KeyboardEvent) => {
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <path d="m22 11-3-3L4 18"/>
-        <path d="M15 11H2"/>
+        <path d="m22 11-3-3L4 18" />
+        <path d="M15 11H2" />
       </svg>
     </button>
   </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Message } from '../types';
+import type { Message } from "../types";
 
 defineProps<{
   message: Message;
@@ -10,7 +10,12 @@ defineProps<{
   <div :class="['message-bubble', `message-bubble--${message.role}`]">
     <div class="message-bubble__content">{{ message.content }}</div>
     <div class="message-bubble__time">
-      {{ new Date(message.createdAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) }}
+      {{
+        new Date(message.createdAt).toLocaleTimeString("zh-CN", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      }}
     </div>
   </div>
 </template>

@@ -1,11 +1,31 @@
+/**
+ * 消息控制器 - 处理消息相关的HTTP请求
+ *
+ * 功能说明：
+ * - 发送消息（非流式）
+ * - 发送消息（流式，打字机效果）
+ * - 获取会话消息列表
+ * - 删除消息
+ *
+ * 路由配置：
+ * - POST /api/messages - 发送消息（非流式）
+ * - POST /api/messages/stream - 发送消息（流式）
+ * - GET /api/messages/:sessionId - 获取消息列表
+ * - DELETE /api/messages/:messageId - 删除消息
+ */
+
 import type { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import { messageService } from "../services/message.service";
 import { aiService } from "../services/ai.service";
 import { prisma } from "../config/prisma";
+import { logger } from "../config/logger";
 import type { Message } from "../types";
 
 export const messageController = {
+  /**
+   * 消息发送验证规则
+   */
   validateSendMessage: [
     body("content")
       .trim()
@@ -17,6 +37,12 @@ export const messageController = {
       .withMessage("sessionId必须是字符串"),
   ],
 
+  /**
+   * 发送消息（非流式）
+   *
+   * @param req - 请求对象，包含sessionId（可选）和content
+   * @param res - 响应对象
+   */
   async sendMessage(req: Request & { userId?: string }, res: Response) {
     try {
       const errors = validationResult(req);
@@ -63,6 +89,14 @@ export const messageController = {
     }
   },
 
+  /**
+   * 发送消息（流式）
+   *
+   * 使用Server-Sent Events(SSE)实现打字机效果
+   *
+   * @param req - 请求对象，包含sessionId（可选）和content
+   * @param res - 响应对象
+   */
   async streamMessage(req: Request & { userId?: string }, res: Response) {
     const { sessionId, content } = req.body;
     const userId = req.userId!;
@@ -99,7 +133,7 @@ export const messageController = {
       res.write(`data: ${JSON.stringify({ type: "done", messageId })}\n\n`);
       res.end();
     } catch (error: any) {
-      console.error("流式响应错误:", error);
+      logger.error(error, "流式响应错误");
       res.write(
         `data: ${JSON.stringify({ type: "error", message: error.message })}\n\n`,
       );
@@ -107,6 +141,12 @@ export const messageController = {
     }
   },
 
+  /**
+   * 获取会话消息列表
+   *
+   * @param req - 请求对象，包含sessionId参数和分页参数
+   * @param res - 响应对象
+   */
   async getMessages(req: Request & { userId?: string }, res: Response) {
     try {
       const { sessionId } = req.params;
@@ -132,6 +172,12 @@ export const messageController = {
     }
   },
 
+  /**
+   * 删除消息
+   *
+   * @param req - 请求对象，包含messageId参数
+   * @param res - 响应对象
+   */
   async deleteMessage(req: Request & { userId?: string }, res: Response) {
     try {
       const { messageId } = req.params;
